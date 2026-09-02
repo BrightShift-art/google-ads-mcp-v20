@@ -79,7 +79,7 @@ class GoogleAdsTools:
             },
             "update_campaign": {
                 "description": "Update campaign settings",
-                "handler": self.update_campaign,
+                "handler": self.campaign_tools.update_campaign,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string", "required": True},
@@ -91,7 +91,7 @@ class GoogleAdsTools:
             },
             "pause_campaign": {
                 "description": "Pause a running campaign",
-                "handler": self.pause_campaign,
+                "handler": self.campaign_tools.pause_campaign,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string", "required": True},
@@ -99,7 +99,7 @@ class GoogleAdsTools:
             },
             "resume_campaign": {
                 "description": "Resume a paused campaign",
-                "handler": self.resume_campaign,
+                "handler": self.campaign_tools.resume_campaign,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string", "required": True},
@@ -107,7 +107,7 @@ class GoogleAdsTools:
             },
             "list_campaigns": {
                 "description": "List all campaigns with optional filters",
-                "handler": self.list_campaigns,
+                "handler": self.campaign_tools.list_campaigns,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "status": {"type": "string"},
@@ -116,175 +116,17 @@ class GoogleAdsTools:
             },
             "get_campaign": {
                 "description": "Get detailed campaign information",
-                "handler": self.get_campaign,
+                "handler": self.campaign_tools.get_campaign,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string", "required": True},
                 },
             },
-            
-            # Ad Group Management
-            "create_ad_group": {
-                "description": "Create a new ad group in a campaign",
-                "handler": self.create_ad_group,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "campaign_id": {"type": "string", "required": True},
-                    "name": {"type": "string", "required": True},
-                    "cpc_bid_micros": {"type": "number"},
-                },
-            },
-            "update_ad_group": {
-                "description": "Update ad group settings",
-                "handler": self.update_ad_group,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string", "required": True},
-                    "name": {"type": "string"},
-                    "status": {"type": "string"},
-                    "cpc_bid_micros": {"type": "number"},
-                },
-            },
-            "list_ad_groups": {
-                "description": "List ad groups with filters",
-                "handler": self.list_ad_groups,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "campaign_id": {"type": "string"},
-                    "status": {"type": "string"},
-                },
-            },
-            
-            # Ad Management
-            "create_responsive_search_ad": {
-                "description": "Create a responsive search ad",
-                "handler": self.create_responsive_search_ad,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string", "required": True},
-                    "headlines": {"type": "array", "required": True},
-                    "descriptions": {"type": "array", "required": True},
-                    "final_urls": {"type": "array", "required": True},
-                    "path1": {"type": "string"},
-                    "path2": {"type": "string"},
-                },
-            },
-            "create_expanded_text_ad": {
-                "description": "Create an expanded text ad",
-                "handler": self.create_expanded_text_ad,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string", "required": True},
-                    "headline1": {"type": "string", "required": True},
-                    "headline2": {"type": "string", "required": True},
-                    "headline3": {"type": "string"},
-                    "description1": {"type": "string", "required": True},
-                    "description2": {"type": "string"},
-                    "final_urls": {"type": "array", "required": True},
-                },
-            },
-            "list_ads": {
-                "description": "List ads with filters",
-                "handler": self.list_ads,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string"},
-                    "campaign_id": {"type": "string"},
-                    "status": {"type": "string"},
-                },
-            },
-            
-            # Asset Management
-            "upload_image_asset": {
-                "description": "Upload an image asset",
-                "handler": self.upload_image_asset,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "image_data": {"type": "string", "required": True},
-                    "name": {"type": "string", "required": True},
-                },
-            },
-            "upload_text_asset": {
-                "description": "Create a text asset",
-                "handler": self.upload_text_asset,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "text": {"type": "string", "required": True},
-                    "name": {"type": "string", "required": True},
-                },
-            },
-            "list_assets": {
-                "description": "List all assets",
-                "handler": self.list_assets,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "asset_type": {"type": "string"},
-                },
-            },
-            
-            # Budget Management
-            "create_budget": {
-                "description": "Create a shared campaign budget",
-                "handler": self.create_budget,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "name": {"type": "string", "required": True},
-                    "amount_micros": {"type": "number", "required": True},
-                    "delivery_method": {"type": "string", "default": "STANDARD"},
-                },
-            },
-            "update_budget": {
-                "description": "Update budget amount or settings",
-                "handler": self.update_budget,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "budget_id": {"type": "string", "required": True},
-                    "amount_micros": {"type": "number"},
-                    "name": {"type": "string"},
-                },
-            },
-            "list_budgets": {
-                "description": "List all budgets",
-                "handler": self.list_budgets,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                },
-            },
-            
-            # Keyword Management
-            "add_keywords": {
-                "description": "Add keywords to an ad group",
-                "handler": self.add_keywords,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string", "required": True},
-                    "keywords": {"type": "array", "required": True},
-                },
-            },
-            "add_negative_keywords": {
-                "description": "Add negative keywords (campaign or ad group level)",
-                "handler": self.add_negative_keywords,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "keywords": {"type": "array", "required": True},
-                    "campaign_id": {"type": "string"},
-                    "ad_group_id": {"type": "string"},
-                },
-            },
-            "list_keywords": {
-                "description": "List keywords with performance data",
-                "handler": self.list_keywords,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "ad_group_id": {"type": "string"},
-                    "campaign_id": {"type": "string"},
-                },
-            },
-            
+
             # Reporting & Analytics
             "get_campaign_performance": {
                 "description": "Get campaign performance metrics",
-                "handler": self.get_campaign_performance,
+                "handler": self.reporting_tools.get_campaign_performance,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string"},
@@ -294,7 +136,7 @@ class GoogleAdsTools:
             },
             "get_ad_group_performance": {
                 "description": "Get ad group performance metrics",
-                "handler": self.get_ad_group_performance,
+                "handler": self.reporting_tools.get_ad_group_performance,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "ad_group_id": {"type": "string"},
@@ -303,7 +145,7 @@ class GoogleAdsTools:
             },
             "get_keyword_performance": {
                 "description": "Get keyword performance metrics",
-                "handler": self.get_keyword_performance,
+                "handler": self.reporting_tools.get_keyword_performance,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "ad_group_id": {"type": "string"},
@@ -312,7 +154,7 @@ class GoogleAdsTools:
             },
             "run_gaql_query": {
                 "description": "Run custom GAQL queries",
-                "handler": self.run_gaql_query,
+                "handler": self.reporting_tools.run_gaql_query,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "query": {"type": "string", "required": True},
@@ -320,36 +162,11 @@ class GoogleAdsTools:
             },
             "get_search_terms_report": {
                 "description": "Get search terms report",
-                "handler": self.get_search_terms_report,
+                "handler": self.reporting_tools.get_search_terms_report,
                 "parameters": {
                     "customer_id": {"type": "string", "required": True},
                     "campaign_id": {"type": "string"},
                     "ad_group_id": {"type": "string"},
-                    "date_range": {"type": "string", "default": "LAST_7_DAYS"},
-                },
-            },
-            
-            # Advanced Features
-            "get_recommendations": {
-                "description": "Get optimization recommendations",
-                "handler": self.get_recommendations,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                },
-            },
-            "apply_recommendation": {
-                "description": "Apply a specific recommendation",
-                "handler": self.apply_recommendation,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
-                    "recommendation_id": {"type": "string", "required": True},
-                },
-            },
-            "get_change_history": {
-                "description": "Get account change history",
-                "handler": self.get_change_history,
-                "parameters": {
-                    "customer_id": {"type": "string", "required": True},
                     "date_range": {"type": "string", "default": "LAST_7_DAYS"},
                 },
             },

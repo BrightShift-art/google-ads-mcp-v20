@@ -244,8 +244,9 @@ class RetryableGoogleAdsClient:
         
         # If it's a service getter, wrap the service
         if name == "get_service":
-            def wrapped_get_service(service_name: str, version: str = "v20") -> Any:
-                service = attr(service_name, version)
+            def wrapped_get_service(service_name: str, version: str | None = None) -> Any:
+                # 2026-09-03 (Brightshift fork): None inherits the google-ads library default (v23 with 29.2.0) instead of pinning v20
+                service = attr(service_name, version) if version else attr(service_name)
                 return RetryableService(service, self._error_handler)
             return wrapped_get_service
             
