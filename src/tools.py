@@ -176,12 +176,16 @@ class GoogleAdsTools:
         """Get all tools in MCP format."""
         tools = []
         for name, config in self._tools_registry.items():
+            # JSON Schema puts "required" on the object as a list of names; a boolean "required" inside a
+            # property is invalid and made the Anthropic API reject 13 of 14 tools (found 2026-09-22).
+            properties = {k: {pk: pv for pk, pv in v.items() if pk != "required"}
+                          for k, v in config["parameters"].items()}
             tool = Tool(
                 name=name,
                 description=config["description"],
                 inputSchema={
                     "type": "object",
-                    "properties": config["parameters"],
+                    "properties": properties,
                     "required": [k for k, v in config["parameters"].items() if v.get("required", False)],
                 },
             )
